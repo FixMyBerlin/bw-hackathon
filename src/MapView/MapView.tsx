@@ -1,20 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import MapboxGL from "mapbox-gl";
-import styled from "styled-components";
 import debug from "debug";
 
 import config from "~/config";
+import { Box, makeStyles, RootRef } from "@material-ui/core";
 
 const logger = debug("hackathon:mapview");
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    height: "100%",
+  },
+});
 
 interface Props extends Partial<MapboxGL.MapboxOptions> {
   onInit?: (arg0: MapboxGL.Map) => void;
-  className?: string;
   center?: MapboxGL.LngLat;
   zoom?: number;
 }
@@ -49,7 +50,9 @@ const Map = (props: Props) => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
-  const { onInit, className, center, zoom, ...mapboxProps } = props;
+  const classes = useStyles();
+
+  const { onInit, center, zoom, ...mapboxProps } = props;
 
   useEffect(() => {
     MapboxGL.accessToken = config.mapbox.token;
@@ -65,12 +68,9 @@ const Map = (props: Props) => {
   }, [map, center]);
 
   return (
-    <Wrapper
-      className={className}
-      ref={(el) => {
-        if (mapContainer != null) mapContainer.current = el;
-      }}
-    />
+    <RootRef rootRef={mapContainer}>
+      <Box className={classes.root} />
+    </RootRef>
   );
 };
 

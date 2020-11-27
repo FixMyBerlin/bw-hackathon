@@ -1,35 +1,44 @@
 import React from "react";
 import MapView from "./MapView";
 import DetailPanel from "./DetailPanel";
-import styled from "styled-components";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
-import GlobalStyles from "./styles/GlobalStyles";
 import config from "./config";
+import {
+  Box,
+  createMuiTheme,
+  makeStyles,
+  responsiveFontSizes,
+  ThemeProvider,
+} from "@material-ui/core";
 
-const Wrapper = styled.div`
-  display: flex;
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-`;
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    height: "100%",
+    left: 0,
+    position: "absolute",
+    top: 0,
+    width: "100%",
+  },
+});
+
+let theme = createMuiTheme({});
+theme = responsiveFontSizes(theme);
 
 const initMap = (map: mapboxgl.Map) => {
   map.fitBounds(config.mapbox.bounds, { padding: 100, linear: true });
 };
 
 const App = () => {
+  const classes = useStyles();
   return (
-    <React.Fragment>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <GlobalStyles />
-      <Wrapper>
+      <Box className={classes.root}>
         <MapView onInit={initMap} />
         <DetailPanel />
-      </Wrapper>
-    </React.Fragment>
+      </Box>
+    </ThemeProvider>
   );
 };
 
