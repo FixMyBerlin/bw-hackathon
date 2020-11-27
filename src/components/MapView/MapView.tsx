@@ -9,6 +9,7 @@ const logger = debug("hackathon:mapview");
 
 const useStyles = makeStyles({
   root: {
+    position: "absolute",
     width: "100%",
     height: "100%",
   },
@@ -28,13 +29,14 @@ const initMap = ({
   zoom,
   mapboxProps,
 }) => {
-  const map = new MapboxGL.Map({
+  const mapboxConfig = {
     container: mapContainer.current,
     ...config.mapbox,
     ...mapboxProps,
-  });
+  };
+  const map = new MapboxGL.Map(mapboxConfig);
 
-  logger("Init map with", mapboxProps);
+  logger("Init map with", mapboxConfig);
 
   map.on("load", () => {
     logger("Map loaded");
@@ -57,7 +59,14 @@ const Map = (props: Props) => {
   useEffect(() => {
     MapboxGL.accessToken = config.mapbox.token;
     if (map == null) {
-      initMap({ setMap, mapContainer, onInit, center, zoom, mapboxProps });
+      initMap({
+        setMap,
+        mapContainer,
+        onInit,
+        center,
+        zoom,
+        mapboxProps,
+      });
     }
   }, [map]);
 
