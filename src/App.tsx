@@ -3,22 +3,26 @@ import MapView from "./MapView";
 import DetailPanel from "./DetailPanel";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-  width: 1280px;
-  height: 800px;
-`;
+import GlobalStyles from "./styles/GlobalStyles";
 
-const Map = styled(MapView)`
-  width: 100%;
+const Wrapper = styled.div`
+  display: flex;
   height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 `;
 
 const App = () => {
   return (
-    <Wrapper>
-      <Map />
-      <DetailPanel />
-    </Wrapper>
+    <>
+      <GlobalStyles />
+      <Wrapper>
+        <MapView />
+        <DetailPanel />
+      </Wrapper>
+    </>
   );
 };
 

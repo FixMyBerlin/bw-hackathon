@@ -53,8 +53,9 @@ const Map = (props: Props) => {
 
   useEffect(() => {
     MapboxGL.accessToken = config.mapbox.token;
-    if (map == null)
+    if (map == null) {
       initMap({ setMap, mapContainer, onInit, center, zoom, mapboxProps });
+    }
   }, [map]);
 
   useEffect(() => {
