@@ -15,12 +15,6 @@ import { useState } from "react";
 import { Point, PointLike } from "mapbox-gl";
 import mapboxgl from "mapbox-gl";
 
-interface Section {
-  gid: number;
-  lrvn_kat: 1 | 3 | 4 | 6;
-  licht: string;
-}
-
 const useStyles = makeStyles({
   root: {
     display: "flex",

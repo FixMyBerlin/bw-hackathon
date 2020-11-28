@@ -3,13 +3,13 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   Grid,
   Slider,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
+import ResultScreen from "./ResultScreen";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -320,28 +320,36 @@ const Screen4 = ({ onClick }) => {
   );
 };
 
-const ResultScreen = ({ onClick }) => {
-  const classes = useStyles();
+const FinalScreen = ({ onClick }) => {
   return (
     <Box mt={2}>
-      <h1>Blumenstraße</h1>
+      {/* <h1>Blumenstraße</h1>
       <h2>Subjektive Sicherheit 78%</h2>
       <h2>Ausbaustandard Qualität</h2>
-      <p></p>
+      <p>80% Schutzstreifen</p>
+      <p>Kein Radweg vorhanden</p>
+      <p>Ard der Straße</p>
       <h2>Sicherheit</h2>
-      <h2>Zustand und Komfort</h2>
-      <Button variant="outlined" onClick={onClick}>
-        Kein KFZ-Parken
+      <h2>Zustand und Komfort</h2> */}
+      <h1>Vielen Dank!</h1>
+      <p>
+        Sie haben alle fehlenden Daten eingetragen, so dass die subjektive
+        Sicherheit dieses Abschnitts berechnet werden kann.
+      </p>
+      <Button variant="contained" onClick={onClick}>
+        Ergebnis ansehen
       </Button>
     </Box>
   );
 };
 
-const Section = ({ gid, onClick, gemeinde, ...features }) => {
-  const classes = useStyles();
+const Section = ({ gid, gemeinde, ...features }) => {
   const [screen, setScreen] = useState(0);
   const [rating, setRating] = useState(23);
+  const [showResult, setShowResult] = useState(false);
   console.log(features);
+
+  if (showResult) return <ResultScreen gid={gid} {...features} />;
   return (
     <React.Fragment>
       <OverviewPanel rating={rating} gemeinde={gemeinde} gid={gid} />
@@ -383,10 +391,10 @@ const Section = ({ gid, onClick, gemeinde, ...features }) => {
         />
       )}
       {screen == 5 && (
-        <ResultScreen
+        <FinalScreen
           onClick={() => {
             setRating(23);
-            onClick();
+            setShowResult(true);
           }}
         />
       )}

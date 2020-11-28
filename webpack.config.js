@@ -2,6 +2,7 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const getPath = (file) => {
   return path.resolve(__dirname, "src", file);
@@ -46,6 +47,7 @@ module.exports = (env, argv) => {
         template: getPath("index.html"),
       }),
       new ESLintWebpackPlugin({}),
+      new CopyPlugin({ patterns: [{ from: "public", to: "public" }] }),
     ],
     devtool: isDevelopment ? "eval-source-map" : "source-map",
     devServer: {
