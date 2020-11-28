@@ -121,7 +121,7 @@ const App = () => {
         )
         .addTo(map);
     });
-    map.on("click", config.routeLayer, ({ point }) => {
+    map.on("click", ({ point }) => {
       setSelected(getFeatureAt(point));
     });
   }, [map]);
