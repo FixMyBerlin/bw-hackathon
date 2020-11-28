@@ -1,6 +1,7 @@
 interface Config {
   mapbox: Partial<mapboxgl.MapboxOptions> & { token: string };
   routeLayer: string;
+  highlightLayer: string;
 }
 
 const config: Config = {
@@ -15,6 +16,7 @@ const config: Config = {
       "pk.eyJ1IjoiaGFja2J3IiwiYSI6ImNraTFuM29saTJqc3AyeXA1YXY2cXMzdTcifQ.qbHiqHfKeW8Z0OUB7Krh_w",
   },
   routeLayer: "radnetz",
+  highlightLayer: "radnetz-highlight",
 };
 
 export default config;

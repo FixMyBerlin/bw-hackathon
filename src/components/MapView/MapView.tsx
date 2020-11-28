@@ -70,12 +70,6 @@ const Map = (props: Props) => {
     }
   }, [map]);
 
-  useEffect(() => {
-    if (map == null || center == null) return;
-
-    map.setCenter(center);
-  }, [map, center]);
-
   return (
     <RootRef rootRef={mapContainer}>
       <Box className={classes.root} />

@@ -1,6 +1,8 @@
 import { Box, Card, CardContent, makeStyles, Slide } from "@material-ui/core";
 import React from "react";
 import CloseButton from "./CloseButton";
+import DefaultContent from "./DefaultContent";
+import Section from "./Section";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,13 +50,8 @@ const DetailPanel = ({ open, onClose, feature }) => {
     <Slide direction="left" in={open} appear={false}>
       <Box className={classes.root}>
         <CloseButton className={classes.closeButton} onClick={onClose} />
-        <h1>
-          {feature ? `Abschnitt ${feature.properties.gid}` : "BW Hackathon"}
-        </h1>
-        {feature == null && (
-          <p>Klicken Sie auf einen Abschnitt um loszulegen</p>
-        )}
-        <pre>{JSON.stringify(feature?.properties, null, 2)}</pre>
+        {feature == null && <DefaultContent />}
+        {feature != null && <Section {...feature.properties} />}
       </Box>
     </Slide>
   );

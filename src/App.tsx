@@ -93,9 +93,25 @@ const App = () => {
       map.getCanvas().style.cursor = feature ? "pointer" : "";
       if (!feature) {
         popup.remove();
+        if (selected) {
+          map.setFilter(config.highlightLayer, [
+            "==",
+            ["get", "gid"],
+            selected.properties.gid,
+          ]);
+          map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
+        } else {
+          map.setFilter(config.routeLayer, null);
+          map.setLayoutProperty(config.highlightLayer, "visibility", "none");
+        }
         return;
       }
-
+      map.setFilter(config.highlightLayer, [
+        "==",
+        ["get", "gid"],
+        feature.properties.gid,
+      ]);
+      map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
       popup
         .setLngLat(e.lngLat)
         .setText(getNetworkName(feature.properties.lrvn_kat))
@@ -111,6 +127,28 @@ const App = () => {
     if (map == null) return;
     map.setPadding(getPadding(panelOpen));
   }, [panelOpen]);
+
+  useEffect(() => {
+    if (!map) return;
+    if (!selected) {
+      map.setFilter(config.routeLayer, null);
+      map.setLayoutProperty(config.highlightLayer, "visibility", "none");
+      return;
+    }
+    // @ts-ignore
+    const coords = selected.geometry?.coordinates;
+    const bounds = coords.reduce(
+      (bounds, coord) => bounds.extend(coord),
+      new mapboxgl.LngLatBounds(coords[0], coords[0])
+    );
+    map.setFilter(config.highlightLayer, [
+      "==",
+      ["get", "gid"],
+      selected.properties.gid,
+    ]);
+    map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
+    map.fitBounds(bounds, { padding: getPadding(panelOpen) });
+  }, [map, selected]);
 
   return (
     <ThemeProvider theme={theme}>
