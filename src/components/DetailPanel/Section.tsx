@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useState } from "react";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -26,9 +26,56 @@ const useStyles = makeStyles({
   },
 });
 
-const Section = ({ gid, onClick, ...features }) => {
+const OverviewPanel = ({ rating, gid, gemeinde }) => {
   const classes = useStyles();
-  console.log(features);
+
+  return (
+    <Grid container item alignItems="center" className={classes.wrapper}>
+      <Grid item xs={4}>
+        <Typography variant="caption">
+          <strong>Abschnitt {gid}</strong>
+        </Typography>
+        <Typography variant="caption" component="div" color="textSecondary">
+          {gemeinde}
+        </Typography>
+      </Grid>
+      <Grid item xs={4}>
+        <Box position="relative" display="inline-flex">
+          <CircularProgress
+            variant="determinate"
+            value={rating}
+            size={64}
+            classes={{ circle: classes.circle }}
+          />
+          <Box
+            top={0}
+            left={0}
+            bottom={0}
+            right={0}
+            position="absolute"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography
+              variant="button"
+              component="div"
+              color="textPrimary"
+            >{`${Math.round(23)}%`}</Typography>
+          </Box>
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Typography variant="caption" component="div" color="textSecondary">
+          der Daten erfasst
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
+
+const StartScreen = ({ onClick }) => {
+  const classes = useStyles();
   return (
     <Grid
       container
@@ -38,47 +85,6 @@ const Section = ({ gid, onClick, ...features }) => {
       className={classes.wrapper}
       spacing={2}
     >
-      <Grid container item alignItems="center">
-        <Grid item xs={4}>
-          <Typography variant="caption">
-            <strong>Abschnitt {gid}</strong>
-          </Typography>
-          <Typography variant="caption" component="div" color="textSecondary">
-            {features.gemeinde}
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Box position="relative" display="inline-flex">
-            <CircularProgress
-              variant="determinate"
-              value={23}
-              size={64}
-              classes={{ circle: classes.circle }}
-            />
-            <Box
-              top={0}
-              left={0}
-              bottom={0}
-              right={0}
-              position="absolute"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography
-                variant="button"
-                component="div"
-                color="textPrimary"
-              >{`${Math.round(23)}%`}</Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="caption" component="div" color="textSecondary">
-            der Daten erfasst
-          </Typography>
-        </Grid>
-      </Grid>
       <Grid container item className={classes.hasDivider}>
         <Grid item xs={6}>
           <Typography variant="caption">
@@ -115,6 +121,18 @@ const Section = ({ gid, onClick, ...features }) => {
         </Button>
       </Grid>
     </Grid>
+  );
+};
+
+const Section = ({ gid, onClick, gemeinde, ...features }) => {
+  const classes = useStyles();
+  const [screen, setScreen] = useState(0);
+  const [rating, setRating] = useState(23);
+  return (
+    <React.Fragment>
+      <OverviewPanel rating={rating} gemeinde={gemeinde} gid={gid} />
+      {screen == 0 && <StartScreen onClick={() => setScreen(screen + 1)} />}
+    </React.Fragment>
   );
 };
 
