@@ -45,9 +45,9 @@ const DetailPanel = ({ open, onClose, route }) => {
   const classes = useStyles();
 
   let steps = [];
-  if (route != null) {
-    steps = route.route[0]?.legs[0].steps;
-  }
+  // if (route != null) {
+  //   steps = route.route[0]?.legs[0].steps;
+  // }
 
   return (
     <Slide direction="left" in={open} appear={false}>

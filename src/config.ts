@@ -1,16 +1,13 @@
 interface Config {
-  mapbox: {
-    bounds: mapboxgl.LngLatBoundsLike;
-    style: string;
-    token: string;
-  };
+  mapbox: Partial<mapboxgl.MapboxOptions> & { token: string };
 }
 
 const config: Config = {
   mapbox: {
+    // center: [49.246, 8.919],
     bounds: [
-      [8.346177, 49.616303],
-      [10.130522, 47.511763],
+      [8.5, 49.1],
+      [9.3, 49.5],
     ],
     style: "mapbox://styles/hackbw/cki1n7wtc0xfo19myothk9w4a",
     token:
