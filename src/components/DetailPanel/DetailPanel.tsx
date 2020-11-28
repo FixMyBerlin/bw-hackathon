@@ -41,22 +41,15 @@ const Leg = ({ step }) => {
   );
 };
 
-const DetailPanel = ({ open, onClose, route }) => {
+const DetailPanel = ({ open, onClose, feature }) => {
   const classes = useStyles();
-
-  let steps = [];
-  // if (route != null) {
-  //   steps = route.route[0]?.legs[0].steps;
-  // }
 
   return (
     <Slide direction="left" in={open} appear={false}>
       <Box className={classes.root}>
         <CloseButton className={classes.closeButton} onClick={onClose} />
         <h1>BW Hackathon</h1>
-        {steps.map((step) => (
-          <Leg step={step} />
-        ))}
+        <pre>{JSON.stringify(feature?.properties, null, 2)}</pre>
       </Box>
     </Slide>
   );

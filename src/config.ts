@@ -1,5 +1,6 @@
 interface Config {
   mapbox: Partial<mapboxgl.MapboxOptions> & { token: string };
+  routeLayer: string;
 }
 
 const config: Config = {
@@ -9,10 +10,11 @@ const config: Config = {
       [8.5, 49.1],
       [9.3, 49.5],
     ],
-    style: "mapbox://styles/hackbw/cki1n7wtc0xfo19myothk9w4a",
+    style: "mapbox://styles/hackbw/cki1n7wtc0xfo19myothk9w4a?fresh=true",
     token:
       "pk.eyJ1IjoiaGFja2J3IiwiYSI6ImNraTFuM29saTJqc3AyeXA1YXY2cXMzdTcifQ.qbHiqHfKeW8Z0OUB7Krh_w",
   },
+  routeLayer: "radnetz",
 };
 
 export default config;

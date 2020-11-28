@@ -12,6 +12,14 @@ import MapView from "./components/MapView";
 import DetailPanel from "./components/DetailPanel";
 import config from "./config";
 import { useState } from "react";
+import { Point, PointLike } from "mapbox-gl";
+import mapboxgl from "mapbox-gl";
+
+interface Section {
+  gid: number;
+  lrvn_kat: 1 | 3 | 4 | 6;
+  licht: string;
+}
 
 const useStyles = makeStyles({
   root: {
@@ -37,10 +45,42 @@ const getPadding = (panelOpen: boolean) => ({
   right: panelOpen ? 340 : 100,
 });
 
+const popup = new mapboxgl.Popup({
+  closeButton: false,
+});
+
+const getNetworkName = (nid: number) =>
+  ({
+    1: "Freizeitnetz",
+    3: "Alltagsnetz",
+    4: "Zielnetz",
+    6: "Alltag/Freizeit-Netz",
+  }[nid]);
+
 const App = () => {
   const classes = useStyles();
   const [panelOpen, setPanelOpen] = useState(true);
   const [map, setMap] = useState<null | mapboxgl.Map>(null);
+  const [
+    selected,
+    setSelected,
+  ] = useState<null | mapboxgl.MapboxGeoJSONFeature>();
+
+  const getFeaturesAt = (point) => {
+    const bbox: [PointLike, PointLike] = [
+      [point.x - 2, point.y - 2],
+      [point.x + 2, point.y + 2],
+    ];
+    return map.queryRenderedFeatures(bbox, {
+      layers: [config.routeLayer],
+    });
+  };
+
+  const getFeatureAt = (point) => {
+    const features = getFeaturesAt(point);
+    if (!features.length) return;
+    return features[0];
+  };
 
   useEffect(() => {
     if (map == null) return;
@@ -48,6 +88,22 @@ const App = () => {
       padding: getPadding(panelOpen),
       linear: true,
     });
+    map.on("mousemove", (e) => {
+      const feature = getFeatureAt(e.point);
+      map.getCanvas().style.cursor = feature ? "pointer" : "";
+      if (!feature) {
+        popup.remove();
+        return;
+      }
+
+      popup
+        .setLngLat(e.lngLat)
+        .setText(getNetworkName(feature.properties.lrvn_kat))
+        .addTo(map);
+    });
+    map.on("click", config.routeLayer, ({ point }) =>
+      setSelected(getFeatureAt(point))
+    );
   }, [map]);
 
   useEffect(() => {
@@ -63,7 +119,7 @@ const App = () => {
         <div className={classes.dummy}></div>
         <DetailPanel
           open={panelOpen}
-          route={[]}
+          feature={selected}
           onClose={() => {
             setPanelOpen(!panelOpen);
           }}
