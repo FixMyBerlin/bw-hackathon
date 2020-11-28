@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, makeStyles, Slide } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
 import CloseButton from "./CloseButton";
 import DefaultContent from "./DefaultContent";
@@ -29,31 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Leg = ({ step }) => {
-  return (
-    <Card>
-      <CardContent>
-        <h1>{step.name}</h1>
-        <p>
-          {step.distance} Meter: {step.maneuver.instruction}
-        </p>
-        <pre>{JSON.stringify(step, null, 2)}</pre>
-      </CardContent>
-    </Card>
-  );
-};
-
-const DetailPanel = ({ open, onClose, feature }) => {
+const DetailPanel = ({ onClose, feature }) => {
   const classes = useStyles();
 
   return (
-    <Slide direction="left" in={open} appear={false}>
-      <Box className={classes.root}>
-        <CloseButton className={classes.closeButton} onClick={onClose} />
-        {feature == null && <DefaultContent />}
-        {feature != null && <Section {...feature.properties} />}
-      </Box>
-    </Slide>
+    <Box className={classes.root}>
+      <CloseButton className={classes.closeButton} onClick={onClose} />
+      {feature == null && <DefaultContent />}
+      {feature != null && <Section {...feature.properties} />}
+    </Box>
   );
 };
 export default DetailPanel;

@@ -38,12 +38,21 @@ const useStyles = makeStyles({
 let theme = createMuiTheme({});
 theme = responsiveFontSizes(theme);
 
-const getPadding = (panelOpen: boolean) => ({
-  top: 100,
-  left: 100,
-  bottom: 100,
-  right: panelOpen ? 340 : 100,
+const getPadding = (pad = 100) => ({
+  top: pad,
+  left: pad,
+  bottom: pad,
+  right: 440 + pad,
 });
+const highlightSection = (map: mapboxgl.Map, sectionId: number | null) => {
+  if (sectionId == null) {
+    map.setFilter(config.highlightLayer, null);
+    map.setLayoutProperty(config.highlightLayer, "visibility", "none");
+  } else {
+    map.setFilter(config.highlightLayer, ["==", ["get", "gid"], sectionId]);
+    map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
+  }
+};
 
 const popup = new mapboxgl.Popup({
   closeButton: false,
@@ -59,14 +68,13 @@ const getNetworkName = (nid: number) =>
 
 const App = () => {
   const classes = useStyles();
-  const [panelOpen, setPanelOpen] = useState(true);
   const [map, setMap] = useState<null | mapboxgl.Map>(null);
   const [
     selected,
     setSelected,
   ] = useState<null | mapboxgl.MapboxGeoJSONFeature>();
 
-  const getFeaturesAt = (point) => {
+  const getFeaturesAt = (point: Point) => {
     const bbox: [PointLike, PointLike] = [
       [point.x - 5, point.y - 5],
       [point.x + 5, point.y + 5],
@@ -76,16 +84,19 @@ const App = () => {
     });
   };
 
-  const getFeatureAt = (point) => {
+  const getFeatureAt = (point: Point) => {
     const features = getFeaturesAt(point);
     if (!features.length) return;
     return features[0];
   };
 
+  //
+  // Configure map view
+  //
   useEffect(() => {
     if (map == null) return;
     map.fitBounds(config.mapbox.bounds, {
-      padding: getPadding(panelOpen),
+      padding: getPadding(),
       linear: true,
     });
     map.on("mousemove", (e) => {
@@ -94,24 +105,13 @@ const App = () => {
       if (!feature) {
         popup.remove();
         if (selected) {
-          map.setFilter(config.highlightLayer, [
-            "==",
-            ["get", "gid"],
-            selected.properties.gid,
-          ]);
-          map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
+          highlightSection(map, selected.properties.gid);
         } else {
-          map.setFilter(config.routeLayer, null);
-          map.setLayoutProperty(config.highlightLayer, "visibility", "none");
+          highlightSection(map, null);
         }
         return;
       }
-      map.setFilter(config.highlightLayer, [
-        "==",
-        ["get", "gid"],
-        feature.properties.gid,
-      ]);
-      map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
+      highlightSection(map, feature.properties.gid);
       popup
         .setLngLat(e.lngLat)
         .setText(
@@ -123,35 +123,27 @@ const App = () => {
     });
     map.on("click", config.routeLayer, ({ point }) => {
       setSelected(getFeatureAt(point));
-      setPanelOpen(true);
     });
   }, [map]);
 
-  useEffect(() => {
-    if (map == null) return;
-    map.setPadding(getPadding(panelOpen));
-  }, [panelOpen]);
-
+  //
+  // Fit view when selected feature changes
+  //
   useEffect(() => {
     if (!map) return;
     if (!selected) {
-      map.setFilter(config.routeLayer, null);
-      map.setLayoutProperty(config.highlightLayer, "visibility", "none");
+      highlightSection(map, null);
       return;
     }
     // @ts-ignore
     const coords = selected.geometry?.coordinates;
     const bounds = coords.reduce(
-      (bounds, coord) => bounds.extend(coord),
+      (bounds: mapboxgl.LngLatBounds, coord: mapboxgl.LngLatBoundsLike) =>
+        bounds.extend(coord),
       new mapboxgl.LngLatBounds(coords[0], coords[0])
     );
-    map.setFilter(config.highlightLayer, [
-      "==",
-      ["get", "gid"],
-      selected.properties.gid,
-    ]);
-    map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
-    map.fitBounds(bounds, { padding: getPadding(panelOpen) });
+    highlightSection(map, selected.properties.gid);
+    map.fitBounds(bounds, { padding: getPadding(200) });
   }, [map, selected]);
 
   return (
@@ -161,11 +153,10 @@ const App = () => {
         <MapView onInit={setMap} />
         <div className={classes.dummy}></div>
         <DetailPanel
-          open={panelOpen}
           feature={selected}
           onClose={() => {
-            setPanelOpen(!panelOpen);
             setSelected(null);
+            map.fitBounds(config.mapbox.bounds, { padding: getPadding() });
           }}
         />
       </Box>
