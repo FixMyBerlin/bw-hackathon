@@ -17,8 +17,12 @@ const useStyles = makeStyles({
     boxShadow: "-1px 0px 6px 1px rgba(0, 0, 0, 0.3)",
   },
   ctaWrapper: {
-    marginTop: "2em",
+    paddingTop: "2em !important",
     "text-align": "center",
+    borderTop: "1px dashed #ccc",
+  },
+  hasDivider: {
+    borderTop: "1px dashed #ccc",
   },
 });
 
@@ -75,7 +79,7 @@ const Section = ({ gid, onClick, ...features }) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container item>
+      <Grid container item className={classes.hasDivider}>
         <Grid item xs={6}>
           <Typography variant="caption">
             <strong>Radnetz</strong>
@@ -85,7 +89,7 @@ const Section = ({ gid, onClick, ...features }) => {
           Übergeordnetes Radnetz
         </Grid>
       </Grid>
-      <Grid container item>
+      <Grid container item className={classes.hasDivider}>
         <Grid item xs={6}>
           <Typography variant="caption">
             <strong>Straßenklasse</strong>
@@ -93,6 +97,16 @@ const Section = ({ gid, onClick, ...features }) => {
         </Grid>
         <Grid item xs={6}>
           Hauptverkehrsstraße
+        </Grid>
+      </Grid>
+      <Grid container item className={classes.hasDivider}>
+        <Grid item xs={6}>
+          <Typography variant="caption">
+            <strong>Lage</strong>
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          Innerorts
         </Grid>
       </Grid>
       <Grid item xs={12} justify="center" className={classes.ctaWrapper}>
