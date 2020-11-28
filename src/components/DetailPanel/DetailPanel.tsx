@@ -1,4 +1,4 @@
-import { Box, makeStyles, Slide } from "@material-ui/core";
+import { Box, Card, CardContent, makeStyles, Slide } from "@material-ui/core";
 import React from "react";
 import CloseButton from "./CloseButton";
 
@@ -27,19 +27,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DetailPanel = ({ open, onClose }) => {
+const Leg = ({ step }) => {
+  return (
+    <Card>
+      <CardContent>
+        <h1>{step.name}</h1>
+        <p>
+          {step.distance} Meter: {step.maneuver.instruction}
+        </p>
+        <pre>{JSON.stringify(step, null, 2)}</pre>
+      </CardContent>
+    </Card>
+  );
+};
+
+const DetailPanel = ({ open, onClose, route }) => {
   const classes = useStyles();
+
+  let steps = [];
+  if (route != null) {
+    steps = route.route[0]?.legs[0].steps;
+  }
 
   return (
     <Slide direction="left" in={open} appear={false}>
       <Box className={classes.root}>
         <CloseButton className={classes.closeButton} onClick={onClose} />
         <h1>BW Hackathon</h1>
-        <p>
-          Willkommen beim RadNetz-Explorer. Das ist eine Beschreibung, das ist
-          eine Beschreibung, das ist eine Beschreibung.
-        </p>
-        <p>Klicken Sie auf einen Streckenabschnitt um loszulegen.</p>
+        {steps.map((step) => (
+          <Leg step={step} />
+        ))}
       </Box>
     </Slide>
   );

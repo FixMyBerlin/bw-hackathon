@@ -12,9 +12,9 @@ const config: Config = {
       [8.346177, 49.616303],
       [10.130522, 47.511763],
     ],
-    style: "mapbox://styles/hejco/cki0po9cz1bf319k2v9fohw9o",
+    style: "mapbox://styles/hackbw/cki1n7wtc0xfo19myothk9w4a",
     token:
-      "pk.eyJ1IjoiaGVqY28iLCJhIjoiY2piZjd2bzk2MnVsMjJybGxwOWhkbWxpNCJ9.L1UNUPutVJHWjSmqoN4h7Q",
+      "pk.eyJ1IjoiaGFja2J3IiwiYSI6ImNraTFuM29saTJqc3AyeXA1YXY2cXMzdTcifQ.qbHiqHfKeW8Z0OUB7Krh_w",
   },
 };
 

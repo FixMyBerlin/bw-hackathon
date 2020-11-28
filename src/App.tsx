@@ -41,6 +41,7 @@ const App = () => {
   const classes = useStyles();
   const [panelOpen, setPanelOpen] = useState(true);
   const [map, setMap] = useState<null | mapboxgl.Map>(null);
+  const [route, setRoute] = useState();
 
   useEffect(() => {
     if (map == null) return;
@@ -59,10 +60,11 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box className={classes.root}>
-        <MapView onInit={setMap} />
+        <MapView onInit={setMap} onRoute={setRoute} />
         <div className={classes.dummy}></div>
         <DetailPanel
           open={panelOpen}
+          route={route}
           onClose={() => {
             setPanelOpen(!panelOpen);
           }}

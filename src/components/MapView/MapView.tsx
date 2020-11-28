@@ -4,6 +4,7 @@ import debug from "debug";
 
 import config from "~/config";
 import { Box, makeStyles, RootRef } from "@material-ui/core";
+import directions from "~/services/directions";
 
 const logger = debug("hackathon:mapview");
 
@@ -19,6 +20,7 @@ interface Props extends Partial<MapboxGL.MapboxOptions> {
   onInit?: (arg0: MapboxGL.Map) => void;
   center?: MapboxGL.LngLat;
   zoom?: number;
+  onRoute: any;
 }
 
 const initMap = ({
@@ -27,6 +29,7 @@ const initMap = ({
   onInit,
   center,
   zoom,
+  onRoute,
   mapboxProps,
 }) => {
   const mapboxConfig = {
@@ -42,6 +45,16 @@ const initMap = ({
     logger("Map loaded");
     setMap(map);
     map.resize();
+    map.addControl(directions, "top-left");
+    directions.mapState();
+    directions.setOrigin("Ritterstraße 1, 73728 Esslingen am Neckar, Germany");
+    directions.setDestination(
+      "Adlerstraße 1, 73728 Esslingen am Neckar, Germany"
+    );
+    map.on("click", "directions-route-line", (e) => {
+      console.log(e);
+    });
+    directions.on("route", onRoute);
     if (center) map.setCenter(center);
     if (zoom) map.setZoom(zoom);
     if (onInit) onInit(map);
@@ -54,7 +67,7 @@ const Map = (props: Props) => {
 
   const classes = useStyles();
 
-  const { onInit, center, zoom, ...mapboxProps } = props;
+  const { onInit, center, zoom, onRoute, ...mapboxProps } = props;
 
   useEffect(() => {
     MapboxGL.accessToken = config.mapbox.token;
@@ -65,6 +78,7 @@ const Map = (props: Props) => {
         onInit,
         center,
         zoom,
+        onRoute,
         mapboxProps,
       });
     }
