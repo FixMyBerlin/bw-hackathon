@@ -114,7 +114,11 @@ const App = () => {
       map.setLayoutProperty(config.highlightLayer, "visibility", "visible");
       popup
         .setLngLat(e.lngLat)
-        .setText(getNetworkName(feature.properties.lrvn_kat))
+        .setText(
+          `${getNetworkName(feature.properties.lrvn_kat)} - Abschnitt ${
+            feature.properties.gid
+          }`
+        )
         .addTo(map);
     });
     map.on("click", config.routeLayer, ({ point }) => {
