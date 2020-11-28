@@ -68,8 +68,8 @@ const App = () => {
 
   const getFeaturesAt = (point) => {
     const bbox: [PointLike, PointLike] = [
-      [point.x - 2, point.y - 2],
-      [point.x + 2, point.y + 2],
+      [point.x - 5, point.y - 5],
+      [point.x + 5, point.y + 5],
     ];
     return map.queryRenderedFeatures(bbox, {
       layers: [config.routeLayer],
@@ -101,9 +101,10 @@ const App = () => {
         .setText(getNetworkName(feature.properties.lrvn_kat))
         .addTo(map);
     });
-    map.on("click", config.routeLayer, ({ point }) =>
-      setSelected(getFeatureAt(point))
-    );
+    map.on("click", config.routeLayer, ({ point }) => {
+      setSelected(getFeatureAt(point));
+      setPanelOpen(true);
+    });
   }, [map]);
 
   useEffect(() => {
@@ -122,6 +123,7 @@ const App = () => {
           feature={selected}
           onClose={() => {
             setPanelOpen(!panelOpen);
+            setSelected(null);
           }}
         />
       </Box>

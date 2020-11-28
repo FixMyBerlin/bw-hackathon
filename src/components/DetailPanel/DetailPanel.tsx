@@ -48,7 +48,12 @@ const DetailPanel = ({ open, onClose, feature }) => {
     <Slide direction="left" in={open} appear={false}>
       <Box className={classes.root}>
         <CloseButton className={classes.closeButton} onClick={onClose} />
-        <h1>BW Hackathon</h1>
+        <h1>
+          {feature ? `Abschnitt ${feature.properties.gid}` : "BW Hackathon"}
+        </h1>
+        {feature == null && (
+          <p>Klicken Sie auf einen Abschnitt um loszulegen</p>
+        )}
         <pre>{JSON.stringify(feature?.properties, null, 2)}</pre>
       </Box>
     </Slide>
