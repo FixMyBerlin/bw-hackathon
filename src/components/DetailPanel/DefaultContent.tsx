@@ -2,8 +2,11 @@ import React from "react";
 
 const DefaultContent = () => (
   <React.Fragment>
-    <h1>Wähle einen Routeabschnitt aus</h1>
-    <p>Zoome in der Karte und klicke auf einen Abschnitt</p>
+    <h1>Hilf bei der Radnetzplanung!</h1>
+    <p>
+      Wähle einen Routenabschnitt und trage Daten zur Situation vor Ort bei.
+      Zoome in der Karte und klicke auf einen Abschnitt um zu beginnen.
+    </p>
   </React.Fragment>
 );
 
