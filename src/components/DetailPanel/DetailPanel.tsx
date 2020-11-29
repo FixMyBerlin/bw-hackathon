@@ -1,8 +1,10 @@
 import { Box, makeStyles } from "@material-ui/core";
 import React from "react";
+import SafetyCheck from "~/components/SafetyCheck";
 import CloseButton from "./CloseButton";
 import DefaultContent from "./DefaultContent";
-import Section from "./Section";
+
+import sampleFeature from "./sample_feature.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,11 +34,13 @@ const useStyles = makeStyles((theme) => ({
 const DetailPanel = ({ onClose, feature }) => {
   const classes = useStyles();
 
+  feature = sampleFeature;
+
   return (
     <Box className={classes.root}>
       <CloseButton className={classes.closeButton} onClick={onClose} />
       {feature == null && <DefaultContent />}
-      {feature != null && <Section {...feature.properties} />}
+      {feature != null && <SafetyCheck {...feature.properties} />}
     </Box>
   );
 };

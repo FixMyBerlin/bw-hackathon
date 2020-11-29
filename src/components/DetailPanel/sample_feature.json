@@ -1,0 +1,45 @@
+{
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [
+      [9.204139709472656, 49.158302370226494],
+      [9.204568862915039, 49.16021078101758]
+    ]
+  },
+  "type": "Feature",
+  "properties": {
+    "belagart": "Asphalt",
+    "breiteva": "< 2,50 m",
+    "breitna": 240,
+    "gemeinde": "Heilbronn, Stadt",
+    "gid": 58914,
+    "kreis": "Heilbronn_Stadt",
+    "licht": "Nicht vorhanden",
+    "lrvn_kat": 1,
+    "ortslage": "Außerorts",
+    "richtung": "Zweirichtungsverkehr",
+    "strasse": "Kfz nicht zugelassen",
+    "wegeart": "Geh-/Radweg gemeinsam",
+    "wegetyp": "Selbstständig geführter Weg"
+  },
+  "id": 740,
+  "layer": {
+    "id": "radnetz",
+    "type": "line",
+    "source": "composite",
+    "source-layer": "radNETZ_Heilbronn_Heidelberg",
+    "layout": { "line-join": "bevel", "line-cap": "round" },
+    "paint": {
+      "line-color": {
+        "r": 0.10588235294117647,
+        "g": 0.3333333333333333,
+        "b": 0.9529411764705882,
+        "a": 1
+      },
+      "line-width": 3
+    }
+  },
+  "source": "composite",
+  "sourceLayer": "radNETZ_Heilbronn_Heidelberg",
+  "state": {}
+}
