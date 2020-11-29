@@ -17,7 +17,14 @@ const SafetyCheck = ({ gid, gemeinde, onClose, ...features }) => {
   return (
     <React.Fragment>
       <OverviewPanel rating={rating} gemeinde={gemeinde} gid={gid} />
-      {screen == 0 && <StartScreen onClick={() => setScreen(screen + 1)} />}
+      {screen == 0 && (
+        <StartScreen
+          onClick={() => setScreen(screen + 1)}
+          gid={gid}
+          gemeinde={gemeinde}
+          {...features}
+        />
+      )}
       {screen == 1 && (
         <Screen1
           onClick={() => {

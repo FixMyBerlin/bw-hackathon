@@ -28,6 +28,10 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.svg$/,
+          use: ["file-loader"],
+        },
+        {
           test: /\.tsx?/,
           exclude: /node_modules/,
           use: [

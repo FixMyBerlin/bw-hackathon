@@ -14,6 +14,7 @@ import config from "./config";
 import { useState } from "react";
 import { Point, PointLike } from "mapbox-gl";
 import mapboxgl from "mapbox-gl";
+import { getNetworkName } from "./radnetz-utils";
 
 const useStyles = makeStyles({
   root: {
@@ -51,14 +52,6 @@ const highlightSection = (map: mapboxgl.Map, sectionId: number | null) => {
 const popup = new mapboxgl.Popup({
   closeButton: false,
 });
-
-const getNetworkName = (nid: number) =>
-  ({
-    1: "Freizeitnetz",
-    3: "Alltagsnetz",
-    4: "Zielnetz",
-    6: "Alltag/Freizeit-Netz",
-  }[nid]);
 
 const App = () => {
   const classes = useStyles();

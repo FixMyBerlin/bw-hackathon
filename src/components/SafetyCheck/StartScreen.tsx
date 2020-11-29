@@ -1,8 +1,9 @@
 import { Grid, Typography, Button } from "@material-ui/core";
 import React from "react";
+import { getNetworkName } from "~/radnetz-utils";
 import { useStyles } from ".";
 
-const StartScreen = ({ onClick }) => {
+const StartScreen = ({ onClick, gid, gemeinde, ...features }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -20,7 +21,7 @@ const StartScreen = ({ onClick }) => {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          Übergeordnetes Radnetz
+          {getNetworkName(features.lrvn_kat)}
         </Grid>
       </Grid>
       <Grid container item className={classes.hasDivider}>

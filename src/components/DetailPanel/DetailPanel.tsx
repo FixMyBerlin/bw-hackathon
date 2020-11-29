@@ -34,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 const DetailPanel = ({ onClose, feature }) => {
   const classes = useStyles();
 
+  // feature = sampleFeature;
+
   return (
     <Box className={classes.root}>
       <CloseButton className={classes.closeButton} onClick={onClose} />
