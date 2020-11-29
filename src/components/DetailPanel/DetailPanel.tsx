@@ -34,13 +34,13 @@ const useStyles = makeStyles((theme) => ({
 const DetailPanel = ({ onClose, feature }) => {
   const classes = useStyles();
 
-  feature = sampleFeature;
-
   return (
     <Box className={classes.root}>
       <CloseButton className={classes.closeButton} onClick={onClose} />
       {feature == null && <DefaultContent />}
-      {feature != null && <SafetyCheck {...feature.properties} />}
+      {feature != null && (
+        <SafetyCheck {...feature.properties} onClose={onClose} />
+      )}
     </Box>
   );
 };

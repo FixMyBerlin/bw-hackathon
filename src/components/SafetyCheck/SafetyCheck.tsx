@@ -5,13 +5,14 @@ import ResultScreen from "./ResultScreen";
 import { Screen1, Screen2, Screen3, Screen4 } from "./Screens";
 import StartScreen from "./StartScreen";
 
-const SafetyCheck = ({ gid, gemeinde, ...features }) => {
+const SafetyCheck = ({ gid, gemeinde, onClose, ...features }) => {
   const [screen, setScreen] = useState(0);
   const [rating, setRating] = useState(23);
-  const [showResult, setShowResult] = useState(true);
+  const [showResult, setShowResult] = useState(false);
   console.log(features);
 
-  if (showResult) return <ResultScreen gid={gid} {...features} />;
+  if (showResult)
+    return <ResultScreen gid={gid} {...features} onClose={onClose} />;
 
   return (
     <React.Fragment>
